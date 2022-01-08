@@ -1,0 +1,11 @@
+.elements__image{
+  width: 282px;
+  height: 282px;
+  display: block;
+  object-fit: cover;
+}
+
+.elements__image:hover{
+  opacity: .8;
+  cursor: pointer;
+}

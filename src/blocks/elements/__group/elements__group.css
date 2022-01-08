@@ -1,0 +1,9 @@
+.elements__group{
+  max-width: 246px;
+  color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* margin: 0 auto; */
+  padding: 22px 15px 22px 21px;
+}

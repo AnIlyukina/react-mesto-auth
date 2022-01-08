@@ -1,0 +1,16 @@
+.popup__input{
+  width: 100%;
+  background-color: transparent;
+  padding: 0 0 11px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+  font-family: inherit;
+  margin-top: 30px;
+  margin-bottom: 5px;
+}
+
+.popup__input:focus{
+  outline-color: transparent;
+  color: #000000;
+}

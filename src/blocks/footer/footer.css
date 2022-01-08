@@ -1,0 +1,22 @@
+.footer{
+  width: 100%;
+  display: flex;
+  margin: 66px auto 0;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+  color: #545454;
+}
+
+@media(max-width: 900px){
+  .footer{
+    padding-left:19px;
+    margin: 48px auto 0;
+  }
+}
+
+@media(max-width: 450px){
+  .footer{
+    max-width: 284px;
+    padding: 0 0 36px;
+  }
+}
