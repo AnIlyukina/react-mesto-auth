@@ -1,0 +1,13 @@
+.register__link-login{
+  display: block;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  margin: 15px 0 24px 0;
+}
+
+.register__link-login:hover{
+  opacity: .6;
+  cursor: pointer;
+}

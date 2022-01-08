@@ -1,0 +1,13 @@
+.register{
+  color: white;
+  display: block;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 358px;
+  width: 100%;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-style: normal;
+}
+
+

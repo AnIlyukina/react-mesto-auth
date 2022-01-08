@@ -1,0 +1,19 @@
+.register__input{
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  padding: 0 0 13px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid rgb(255, 255, 255);
+  font-family: inherit;
+  margin-top: 30px;
+  color: white;
+  outline: none;
+}
+
+.register__input::placeholder {
+  color: #CCCCCC;
+  font-size: 14px;
+  line-height: 17px;
+}

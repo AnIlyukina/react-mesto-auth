@@ -9,6 +9,8 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
+import Register from "./Register";
+import Login from "./Login";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -141,7 +143,9 @@ function App() {
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
           <Header />
-          <Main
+          <Login/>
+          {/* <Register/> */}
+          {/* <Main
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
@@ -149,7 +153,7 @@ function App() {
             cards={cards}
             onCardLike={handleCardLike}
             onCardDelete={handleConfirmDeleteClick}
-          />
+          /> */}
           <Footer />
 
           <EditProfilePopup
