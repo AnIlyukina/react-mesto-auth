@@ -1,4 +1,5 @@
 import React from "react";
+import { Route, Switch } from "react-router-dom";
 import api from "../utils/Api";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -11,8 +12,12 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import Register from "./Register";
 import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
+  
+  const[loggedIn, setLoggedIn] = React.useState(false);
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
   const [isAddProfilePopupOpen, setIsAddProfilePopupOpen] =
@@ -143,19 +148,30 @@ function App() {
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
           <Header />
-          <Login/>
-          {/* <Register/> */}
-          {/* <Main
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleConfirmDeleteClick}
-          /> */}
-          <Footer />
+          <Switch>
+            <ProtectedRoute
+              exact path="/"
+              loggedIn={loggedIn}
+              component={Main}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleConfirmDeleteClick}
+            />
+            <Route path='/sign-up'>
+              <Register/>
+            </Route>
+            <Route path='/sign-in'>
+             <Login/>
+            </Route>
+      
 
+            
+          </Switch>
+          <Footer />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
@@ -180,8 +196,6 @@ function App() {
             onSubmitDeleteCard = {handleCardDelete}
             card={cardToDelete}
           />
-
-
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </CurrentUserContext.Provider>
       </div>

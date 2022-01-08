@@ -1,6 +1,25 @@
 import React from "react";
+import { Link } from 'react-router-dom'; 
+import * as Auth from './Auth';
 
 function Register(){
+
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  function handleChangeEmail(e) {
+    setEmail(e.target.value);
+  }
+
+  function handleChangePassword (e) {
+    setPassword(e.target.value); 
+  }
+
+  function handleSubmit (){
+    Auth.register(email, password)
+    console.log('fsssf')
+  }
+
   return(
     <section className="register">
       <h2 className="register__title">Регистрация</h2>
@@ -12,6 +31,8 @@ function Register(){
         className="register__input register__input_type_email"
         autoComplete="off"
         required
+        value={email || ''}
+        onChange={handleChangeEmail}
       />
       <input
         id="register-password"
@@ -21,9 +42,11 @@ function Register(){
         className="register__input register__input_type_password"
         autoComplete="off"
         required
+        value={password || ''}
+        onChange={handleChangePassword}
       />
-      <button className='register__button' type="submit">Зарегистрироваться</button>
-      <a className="register__link-login">Уже зарегистрированы? Войти</a>
+      <button onClick={handleSubmit} className='register__button' type="submit">Зарегистрироваться</button>
+      <Link to="/sign-in" className="register__link-login">Уже зарегистрированы? Войти</Link>
 
     </section>
   )
