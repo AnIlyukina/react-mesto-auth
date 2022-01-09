@@ -20,9 +20,10 @@ function Login(props){
 
   function handleSubmit(){
     Auth.authorize( password, email)
-    .then(() => {
+    .then((res) => {
         props.handleLogin()
         history.push('/')
+        localStorage.setItem('jwt', res.token);
     })
     .catch (error => console.log(error))
   }

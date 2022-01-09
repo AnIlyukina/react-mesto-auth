@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import api from "../utils/Api";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -13,8 +13,10 @@ import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
+import * as Auth from './Auth';
 
 function App() {
+  const history = useHistory()
   
   const[loggedIn, setLoggedIn] = React.useState(false);
 
@@ -38,7 +40,9 @@ function App() {
 
   const [cardToDelete, setCardToDelete] = React.useState({});
 
+
   React.useEffect(() => {
+    tokenCheck();
     Promise.all([api.getInfoDate(), api.getInitialCards()])
       .then(([user, cards]) => {
         setCurrentUser(user);
@@ -51,6 +55,23 @@ function App() {
 
   function handleLogin(){
     setLoggedIn(true)
+  }
+
+  function tokenCheck() {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
+      Auth.getContent(jwt)
+      .then((res) => {
+        if(res) {
+          // setUserEmailOnHeader(res.data.email)
+        };
+        setLoggedIn(true);
+        history.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   }
 
   function handleCardClick(card) {
