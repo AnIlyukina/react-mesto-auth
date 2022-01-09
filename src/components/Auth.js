@@ -26,3 +26,21 @@ export const register = (email, password) => {
     })
   )
 }
+
+export const authorize = ( password, email) => {
+   return fetch(`${BASE_URL}/signin`,{
+     method: 'POST',
+     headers: {
+      "Content-Type": "application/json" 
+     },
+     body: JSON.stringify({ password, email})
+   })
+   .then((res) => res.json())
+   .then ((data) => {
+     if (data.jwt){
+      localStorage.setItem('jwt', data.jwt);
+      return data
+     }
+   })
+   .catch((error) => console.log(error))
+}

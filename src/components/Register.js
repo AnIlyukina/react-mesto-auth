@@ -1,11 +1,15 @@
 import React from "react";
-import { Link } from 'react-router-dom'; 
+import { Link, withRouter, useHistory } from 'react-router-dom'; 
 import * as Auth from './Auth';
+
+
 
 function Register(){
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  const history = useHistory();
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -16,8 +20,7 @@ function Register(){
   }
 
   function handleSubmit (){
-    Auth.register(email, password)
-    console.log('fsssf')
+    Auth.register(email, password).then(() => { history.push('/sign-in') });
   }
 
   return(
@@ -52,4 +55,4 @@ function Register(){
   )
 }
 
-export default Register;
+export default withRouter(Register);

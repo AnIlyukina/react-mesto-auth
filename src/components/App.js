@@ -49,6 +49,10 @@ function App() {
       });
   }, []);
 
+  function handleLogin(){
+    setLoggedIn(true)
+  }
+
   function handleCardClick(card) {
     setSelectedCard(card);
   }
@@ -165,7 +169,7 @@ function App() {
               <Register/>
             </Route>
             <Route path='/sign-in'>
-             <Login/>
+             <Login handleLogin={handleLogin}/>
             </Route>
       
 
