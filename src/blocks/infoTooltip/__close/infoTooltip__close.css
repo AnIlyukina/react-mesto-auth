@@ -1,0 +1,30 @@
+.infoTooltip__close {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: .3s;
+  background-image: url(../../../images/edit-form__close.png);
+}
+
+@media (max-width:700px){
+  .infoTooltip__close{
+    width: 20px;
+    height: 20px;
+    top: -36px;
+    right: 0px;
+  }
+}
+
+.infoTooltip__close:hover{
+  opacity: .6;
+  cursor: pointer;
+}

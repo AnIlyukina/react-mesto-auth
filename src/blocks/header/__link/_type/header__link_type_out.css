@@ -1,0 +1,11 @@
+.header__link_type_out{
+  color:#A9A9A9;
+  margin-left: 24px;
+  transition: .3s;
+
+}
+
+.header__link_type_out:hover{
+  cursor: pointer;
+  opacity: .5;
+}

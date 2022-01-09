@@ -14,11 +14,14 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import * as Auth from './Auth';
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   const history = useHistory()
   
   const[loggedIn, setLoggedIn] = React.useState(false);
+
+  const[isPersonalEmailHeader, setIsPersonalEmailHeader] = React.useState('')
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -63,7 +66,7 @@ function App() {
       Auth.getContent(jwt)
       .then((res) => {
         if(res) {
-          // setUserEmailOnHeader(res.data.email)
+          setIsPersonalEmailHeader(res.data.email)
         };
         setLoggedIn(true);
         history.push('/');
@@ -72,6 +75,13 @@ function App() {
         console.log(err);
       });
     }
+  }
+
+  function signOut(){
+    localStorage.removeItem('jwt');
+    history.push('/sign-in');
+    setLoggedIn(false)
+
   }
 
   function handleCardClick(card) {
@@ -172,7 +182,11 @@ function App() {
     <div className="body">
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header />
+          <Header 
+            personalEmail = {isPersonalEmailHeader}  
+            loggedIn ={loggedIn}
+            signOut = {signOut}
+            />
           <Switch>
             <ProtectedRoute
               exact path="/"
@@ -190,13 +204,15 @@ function App() {
               <Register/>
             </Route>
             <Route path='/sign-in'>
-             <Login handleLogin={handleLogin}/>
+             <Login handleLogin={handleLogin} setPersonalEmail={setIsPersonalEmailHeader}/>
             </Route>
       
 
             
           </Switch>
           <Footer />
+
+          <InfoTooltip/>
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}

@@ -21,9 +21,11 @@ function Login(props){
   function handleSubmit(){
     Auth.authorize( password, email)
     .then((res) => {
+      console.log(res)
         props.handleLogin()
         history.push('/')
         localStorage.setItem('jwt', res.token);
+        props.setPersonalEmail(email)
     })
     .catch (error => console.log(error))
   }
