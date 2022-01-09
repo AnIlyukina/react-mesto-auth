@@ -1,15 +1,14 @@
 import React from "react";
-import { Link, withRouter, useHistory } from 'react-router-dom'; 
+import { Link, withRouter } from 'react-router-dom'; 
 import * as Auth from './Auth';
 
 
 
-function Register(){
+function Register(props){
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const history = useHistory();
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -19,9 +18,10 @@ function Register(){
     setPassword(e.target.value); 
   }
 
-  function handleSubmit (){
-    Auth.register(email, password).then(() => { history.push('/sign-in') });
+  function handleSubmit() {
+    props.handleSubmitRegister(email, password);
   }
+ 
 
   return(
     <section className="register">

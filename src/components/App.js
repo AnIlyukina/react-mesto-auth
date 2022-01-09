@@ -21,7 +21,11 @@ function App() {
   
   const[loggedIn, setLoggedIn] = React.useState(false);
 
-  const[isPersonalEmailHeader, setIsPersonalEmailHeader] = React.useState('')
+  const[isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false)
+  const[messageInfoTooltip, setMessageInfoTooltip] = React.useState(false)
+
+  const [isPersonalEmailHeader, setIsPersonalEmailHeader] =
+    React.useState(false);
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -60,6 +64,21 @@ function App() {
     setLoggedIn(true)
   }
 
+  function handleSubmitRegister(email, password) {
+    Auth.register(email, password)
+      .then((res) => {
+        setIsInfoTooltipOpen(true);
+        if(res) {
+          setMessageInfoTooltip(true);
+          history.push('/sign-in');
+        }
+      })
+      .catch(() => {
+        setMessageInfoTooltip(false);
+        setIsInfoTooltipOpen(true);
+      });
+  }
+
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt');
     if(jwt) {
@@ -88,6 +107,8 @@ function App() {
     setSelectedCard(card);
   }
 
+  
+
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -106,6 +127,7 @@ function App() {
   }
 
   function closeAllPopups() {
+    setIsInfoTooltipOpen(false)
     setIsEditProfilePopupOpen(false);
     setIsAddProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
@@ -186,6 +208,7 @@ function App() {
             personalEmail = {isPersonalEmailHeader}  
             loggedIn ={loggedIn}
             signOut = {signOut}
+            
             />
           <Switch>
             <ProtectedRoute
@@ -201,7 +224,7 @@ function App() {
               onCardDelete={handleConfirmDeleteClick}
             />
             <Route path='/sign-up'>
-              <Register/>
+              <Register handleSubmitRegister ={handleSubmitRegister}/>
             </Route>
             <Route path='/sign-in'>
              <Login handleLogin={handleLogin} setPersonalEmail={setIsPersonalEmailHeader}/>
@@ -212,7 +235,7 @@ function App() {
           </Switch>
           <Footer />
 
-          <InfoTooltip/>
+          <InfoTooltip isOpen ={isInfoTooltipOpen} messageInfoTooltip = {messageInfoTooltip} onClose={closeAllPopups}/>
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
