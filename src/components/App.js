@@ -16,7 +16,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import * as Auth from './Auth';
 import InfoTooltip from "./InfoTooltip";
 
+
 function App() {
+
+
   const history = useHistory()
   
   const[loggedIn, setLoggedIn] = React.useState(false);
@@ -266,5 +269,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

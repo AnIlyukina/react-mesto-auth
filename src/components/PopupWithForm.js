@@ -1,4 +1,7 @@
+
+
 function PopupWithForm(props) {
+
   return (
     <div
       className={`popup popup_type_${props.name} ${
@@ -21,7 +24,9 @@ function PopupWithForm(props) {
           <button
             type="submit"
             className={`
-                    popup__button popup__form-save ${props.saveButton}
+                    popup__button popup__form-save ${props.saveButton} ${
+                      !props.isFormValid ? "popup__button_disabled" : ""
+                    } 
                   `}
           >
             {props.textButton}

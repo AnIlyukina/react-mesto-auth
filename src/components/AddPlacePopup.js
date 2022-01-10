@@ -1,30 +1,24 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import useForm from "../Hooks/useForm";
 
 function AddPlacePopup(props) {
-  const [newCardName, setNewCardName] = React.useState("");
-  const [newCardLink, setNewCardLink] = React.useState("");
 
-  function handleChangeNewCardName(e) {
-    setNewCardName(e.target.value);
-  }
-
-  function handleChangeNewCardLink(e) {
-    setNewCardLink(e.target.value);
-  }
+  const {handleChange, values, isValid, errors, setValues, setIsValid, setErrors } = useForm()
 
   function handleSubmit(e) {
     e.preventDefault();
 
     props.onAddPlace({
-      name: newCardName,
-      link: newCardLink,
+      name: values.title,
+      link: values.link
     });
   }
 
   React.useEffect(() => {
-    setNewCardName('');
-    setNewCardLink('');
+    setValues({})
+    setErrors({})
+    setIsValid(false)
   }, [props.isOpen]);
 
   return (
@@ -36,9 +30,9 @@ function AddPlacePopup(props) {
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
+      isFormValid = {isValid}
     >
       <input
-        id="title"
         name="title"
         placeholder="Название"
         type="text"
@@ -47,22 +41,21 @@ function AddPlacePopup(props) {
         maxLength="30"
         autoComplete="off"
         required
-        value={newCardName}
-        onChange={handleChangeNewCardName}
+        value={values.title || ''}
+        onChange={handleChange}
       />
-      <span id="title-error" className="error"></span>
+      <span id="title-error" className="error">{errors.title}</span>
       <input
-        id="link"
         name="link"
         placeholder="Ссылка"
         type="url"
         className="popup__input popup__input_type_link"
         autoComplete="off"
         required
-        value={newCardLink}
-        onChange={handleChangeNewCardLink}
+        value={values.link || ''}
+        onChange={handleChange}
       />
-      <span id="link-error" className="error"></span>
+      <span id="link-error" className="error">{errors.link}</span>
     </PopupWithForm>
   );
 }
