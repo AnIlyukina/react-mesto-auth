@@ -25,7 +25,7 @@ const useForm = () => {
       [name]: e.target.validationMessage
     })
 
-    setIsValid(e.target.closest(".popup__form").checkValidity())
+    setIsValid(e.target.closest(".form").checkValidity())
   }
 
 
