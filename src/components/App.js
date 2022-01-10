@@ -24,6 +24,8 @@ function App() {
   
   const[loggedIn, setLoggedIn] = React.useState(false);
 
+  const[isLoader, setIsLoader] = React.useState(false)
+
   const[isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false)
   const[messageInfoTooltip, setMessageInfoTooltip] = React.useState(false)
 
@@ -110,7 +112,7 @@ function App() {
     setSelectedCard(card);
   }
 
-  
+ 
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -139,11 +141,18 @@ function App() {
     setCardToDelete({ name: "", link: "" });
   }
 
+  
+  function handleLoadingSubmit(loading){
+    setIsLoader(loading)
+  }
+
   function handleUpdateUser(user) {
+    handleLoadingSubmit(true)
     api
       .saveInfoDate(user)
       .then((newUserInfo) => {
         setCurrentUser(newUserInfo);
+        handleLoadingSubmit(false)
         closeAllPopups();
       })
       .catch((error) => {
@@ -152,10 +161,12 @@ function App() {
   }
 
   function handleUpdateAvatar(avatar) {
+    handleLoadingSubmit(true)
     api
       .changeAvatar(avatar)
       .then((avatar) => {
         setCurrentUser(avatar);
+        handleLoadingSubmit(false)
         closeAllPopups();
       })
       .catch((error) => {
@@ -164,10 +175,12 @@ function App() {
   }
 
   function handleAddPlaceSubmit(newCard) {
+    handleLoadingSubmit(true)
     api
       .saveCard(newCard)
       .then((newCard) => {
         addCards([newCard, ...cards]);
+        handleLoadingSubmit(false)
         closeAllPopups();
       })
       .catch((error) => {
@@ -176,11 +189,13 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    handleLoadingSubmit(true)
     api
       .deleteCard(card._id)
       .then(() => {
         const newCards = cards.filter((c) => c._id !== card._id);
         addCards(newCards);
+        handleLoadingSubmit(false)
         closeAllPopups()
       })
       .catch((error) => {
@@ -243,18 +258,21 @@ function App() {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
+            isLoader = {isLoader}
           />
 
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
+            isLoader = {isLoader}
           />
 
           <AddPlacePopup
             isOpen={isAddProfilePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
+            isLoader = {isLoader}
           />
 
           <ConfirmDeletePopup
@@ -262,6 +280,7 @@ function App() {
             onClose={closeAllPopups}
             onSubmitDeleteCard = {handleCardDelete}
             card={cardToDelete}
+            isLoader = {isLoader}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </CurrentUserContext.Provider>

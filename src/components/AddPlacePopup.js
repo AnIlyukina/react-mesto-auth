@@ -27,10 +27,12 @@ function AddPlacePopup(props) {
       formName="add-form"
       title="Новое место"
       textButton="Создать"
+      textButtonLoading = "Создается..."
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
       isFormValid = {isValid}
+      isLoader = {props.isLoader}
     >
       <input
         name="title"

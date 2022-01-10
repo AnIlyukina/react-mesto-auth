@@ -6,7 +6,6 @@ import useForm from "../Hooks/useForm";
 function EditAvatarPopup(props) {
 
   const {handleChange , values , errors, isValid, setIsValid, setValues, setErrors } = useForm()
-  // const avatarRef = React.useRef();
 
 
   function handleSubmit(e) {
@@ -31,10 +30,12 @@ function EditAvatarPopup(props) {
       formName="avatar-form"
       title="Обновить аватар"
       textButton="Сохранить"
+      textButtonLoading="Сохранение..."
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
       isFormValid={ isValid }
+      isLoader = {props.isLoader}
     >
       <input
         id="link-avatar"
@@ -46,7 +47,6 @@ function EditAvatarPopup(props) {
         required
         onChange={handleChange}
         value={values.avatar || ''}
-        // ref={avatarRef}
       />
       <span id="link-avatar-error" className="error">{ errors.avatar }</span>
     </PopupWithForm>

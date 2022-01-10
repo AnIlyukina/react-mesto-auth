@@ -10,16 +10,6 @@ function Login(props){
 
   const {handleChange, values, errors, isValid} =useForm()
 
-  // const [email, setEmail] = React.useState('')
-  // const [password, setPassword] = React.useState('')
-
-  // function handleChangeEmail(e){
-  //   setEmail(e.target.value)
-  // }
-
-  // function handleChangePassword(e){
-  //   setPassword(e.target.value)
-  // }
 
   function handleSubmit(event){
     event.preventDefault()
