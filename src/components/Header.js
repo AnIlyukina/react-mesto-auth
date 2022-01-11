@@ -11,7 +11,7 @@ function Header(props) {
       {props.loggedIn
             ? (<>
                 <div className='header__info'>
-                  <span>{props.personalEmail}</span>
+                  <span className="header__info-email">{props.personalEmail}</span>
                   <a onClick={props.signOut} className='header__link header__link_type_out'>Выйти</a>
                 </div>
               </>

@@ -1,0 +1,16 @@
+@media (max-width:400px){
+  .header__info-email{
+    text-overflow: ellipsis;
+    max-width: 140px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+
+@media (max-width:900px){
+  .header__info-email{
+    padding-right: 27px;
+  }
+}

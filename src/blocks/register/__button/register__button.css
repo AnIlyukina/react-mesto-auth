@@ -15,3 +15,10 @@
   opacity: .6;
   cursor: pointer;
 }
+
+@media(max-width:425px){
+  .register__button{
+    margin-top: 187px;
+    margin-bottom: 0px;
+  }
+}

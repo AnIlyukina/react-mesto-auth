@@ -16,3 +16,10 @@
   opacity: .6;
   cursor: pointer;
 }
+
+@media(max-width:425px){
+  .login__button{
+    margin-top: 187px;
+    margin-bottom: 20px;
+  }
+}
