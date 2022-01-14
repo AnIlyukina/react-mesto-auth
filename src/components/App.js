@@ -13,7 +13,7 @@ import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
-import * as Auth from './Auth';
+import * as auth from '../utils/auth';
 import InfoTooltip from "./InfoTooltip";
 
 
@@ -24,13 +24,12 @@ function App() {
   
   const[loggedIn, setLoggedIn] = React.useState(false);
 
-  const[isLoader, setIsLoader] = React.useState(false)
+  const[isLoading, setIsLoading] = React.useState(false)
 
   const[isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false)
   const[messageInfoTooltip, setMessageInfoTooltip] = React.useState(false)
 
-  const [isPersonalEmailHeader, setIsPersonalEmailHeader] =
-    React.useState(false);
+  const [email, setEmail] = React.useState('');
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -54,8 +53,8 @@ function App() {
 
 
   React.useEffect(() => {
-    tokenCheck();
-    Promise.all([api.getInfoDate(), api.getInitialCards()])
+    checkToken();
+    Promise.all([api.getUserData(), api.getInitialCards()])
       .then(([user, cards]) => {
         setCurrentUser(user);
         addCards(cards);
@@ -70,7 +69,7 @@ function App() {
   }
 
   function handleSubmitRegister(email, password) {
-    Auth.register(email, password)
+    auth.register(email, password)
       .then((res) => {
         setIsInfoTooltipOpen(true);
         if(res) {
@@ -84,13 +83,13 @@ function App() {
       });
   }
 
-  function tokenCheck() {
+  function checkToken() {
     const jwt = localStorage.getItem('jwt');
     if(jwt) {
-      Auth.getContent(jwt)
+      auth.getToken(jwt)
       .then((res) => {
         if(res) {
-          setIsPersonalEmailHeader(res.data.email)
+          setEmail(res.data.email)
         };
         setLoggedIn(true);
         history.push('/');
@@ -141,18 +140,15 @@ function App() {
     setCardToDelete({ name: "", link: "" });
   }
 
-  
-  function handleLoadingSubmit(loading){
-    setIsLoader(loading)
-  }
+
 
   function handleUpdateUser(user) {
-    handleLoadingSubmit(true)
+    setIsLoading(true)
     api
-      .saveInfoDate(user)
+      .saveUserData(user)
       .then((newUserInfo) => {
         setCurrentUser(newUserInfo);
-        handleLoadingSubmit(false)
+        setIsLoading(false)
         closeAllPopups();
       })
       .catch((error) => {
@@ -161,12 +157,12 @@ function App() {
   }
 
   function handleUpdateAvatar(avatar) {
-    handleLoadingSubmit(true)
+    setIsLoading(true)
     api
       .changeAvatar(avatar)
       .then((avatar) => {
         setCurrentUser(avatar);
-        handleLoadingSubmit(false)
+        setIsLoading(false)
         closeAllPopups();
       })
       .catch((error) => {
@@ -175,12 +171,12 @@ function App() {
   }
 
   function handleAddPlaceSubmit(newCard) {
-    handleLoadingSubmit(true)
+    setIsLoading(true)
     api
       .saveCard(newCard)
       .then((newCard) => {
         addCards([newCard, ...cards]);
-        handleLoadingSubmit(false)
+        setIsLoading(false)
         closeAllPopups();
       })
       .catch((error) => {
@@ -189,13 +185,13 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    handleLoadingSubmit(true)
+    setIsLoading(true)
     api
       .deleteCard(card._id)
       .then(() => {
         const newCards = cards.filter((c) => c._id !== card._id);
         addCards(newCards);
-        handleLoadingSubmit(false)
+        setIsLoading(false)
         closeAllPopups()
       })
       .catch((error) => {
@@ -223,7 +219,7 @@ function App() {
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
           <Header 
-            personalEmail = {isPersonalEmailHeader}  
+            email = {email}  
             loggedIn ={loggedIn}
             signOut = {signOut}
             
@@ -245,7 +241,7 @@ function App() {
               <Register handleSubmitRegister ={handleSubmitRegister}/>
             </Route>
             <Route path='/sign-in'>
-             <Login handleLogin={handleLogin} setPersonalEmail={setIsPersonalEmailHeader}/>
+             <Login handleLogin={handleLogin} setEmail={setEmail}/>
             </Route>
       
 
@@ -258,21 +254,21 @@ function App() {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
-            isLoader = {isLoader}
+            isLoading = {isLoading}
           />
 
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
-            isLoader = {isLoader}
+            isLoading = {isLoading}
           />
 
           <AddPlacePopup
             isOpen={isAddProfilePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
-            isLoader = {isLoader}
+            isLoading = {isLoading}
           />
 
           <ConfirmDeletePopup
@@ -280,7 +276,7 @@ function App() {
             onClose={closeAllPopups}
             onSubmitDeleteCard = {handleCardDelete}
             card={cardToDelete}
-            isLoader = {isLoader}
+            isLoading = {isLoading}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </CurrentUserContext.Provider>

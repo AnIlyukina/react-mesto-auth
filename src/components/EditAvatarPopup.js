@@ -35,7 +35,7 @@ function EditAvatarPopup(props) {
       onClose={props.onClose}
       onSubmit={handleSubmit}
       isFormValid={ isValid }
-      isLoader = {props.isLoader}
+      isLoading = {props.isLoading}
     >
       <input
         id="link-avatar"

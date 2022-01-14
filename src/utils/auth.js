@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://auth.nomoreparties.co'
 
- function serverResponse(res) {
+ function getServerResponse(res) {
   if (res.ok) {
     return res.json();
   }
@@ -18,7 +18,7 @@ export const register = (email, password) => {
     })
     .then((res) =>{
       console.log(res)
-      return serverResponse(res)
+      return getServerResponse(res)
     })
   )
 }
@@ -33,11 +33,11 @@ export const authorize = ( password, email) => {
    })
    .then((res) =>{
     console.log(res)
-    return serverResponse(res)
+    return getServerResponse(res)
   })
 }
 
-export const getContent = (token) =>{
+export const getToken = (token) =>{
   return fetch(`${BASE_URL}/users/me`,{
     method: 'GET',
     headers:{
@@ -47,6 +47,6 @@ export const getContent = (token) =>{
   })
   .then((res) =>{
     console.log(res)
-    return serverResponse(res)
+    return getServerResponse(res)
   })
 }

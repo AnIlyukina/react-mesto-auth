@@ -32,7 +32,7 @@ function AddPlacePopup(props) {
       onClose={props.onClose}
       onSubmit={handleSubmit}
       isFormValid = {isValid}
-      isLoader = {props.isLoader}
+      isLoading = {props.isLoading}
     >
       <input
         name="title"

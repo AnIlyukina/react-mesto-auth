@@ -17,7 +17,7 @@ function ConfirmDeletePopup(props){
       saveButton="boxModel"
       textButton="Да"
       textButtonLoading="Удаление..."
-      isLoader = {props.isLoader}
+      isLoading = {props.isLoading}
       isOpen = {props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}

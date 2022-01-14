@@ -29,7 +29,7 @@ function PopupWithForm(props) {
                     } 
                   `}
           >
-            {`${!props.isLoader ? props.textButton : props.textButtonLoading}`}
+            {`${!props.isLoading ? props.textButton : props.textButtonLoading}`}
           </button>
         </form>
       </div>

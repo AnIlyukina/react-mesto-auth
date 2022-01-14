@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter, useHistory } from 'react-router-dom';
-import * as Auth from './Auth';
+import * as auth from '../utils/auth';
 import useForm from "../Hooks/useForm";
   
 
@@ -14,13 +14,13 @@ function Login(props){
   function handleSubmit(event){
     event.preventDefault()
     console.log(values.password, values.login)
-    Auth.authorize( values.password, values.login)
+    auth.authorize( values.password, values.login)
     .then((res) => {
       console.log(res)
         props.handleLogin()
         history.push('/')
         localStorage.setItem('jwt', res.token);
-        props.setPersonalEmail(values.login)
+        props.setEmail(values.login)
     })
     .catch (error => console.log(error))
   }

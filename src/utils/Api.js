@@ -5,7 +5,7 @@ class Api {
   }
 
   // Функция которая возвращает ответ сервера
-  _serverResponse(response) {
+  _getServerResponse(response) {
     if (response.ok) {
       return response.json();
     }
@@ -13,7 +13,7 @@ class Api {
   }
 
   // Получение информации о пользователе с сервера
-  getInfoDate() {
+  getUserData() {
     return fetch(`${this._baseUrl}users/me/`, {
       method: "GET",
       headers: {
@@ -21,7 +21,7 @@ class Api {
         "Content-type": "application/json",
       },
     }).then((res) => {
-      return this._serverResponse(res);
+      return this._getServerResponse(res);
     });
   }
 
@@ -34,12 +34,12 @@ class Api {
         "Content-type": "application/json",
       },
     }).then((res) => {
-      return this._serverResponse(res);
+      return this._getServerResponse(res);
     });
   }
 
   // Сохранение новых данных о пользователе
-  saveInfoDate(user) {
+  saveUserData(user) {
     return fetch(`${this._baseUrl}users/me/`, {
       method: "PATCH",
       headers: {
@@ -51,7 +51,7 @@ class Api {
         about: `${user.about}`,
       }),
     }).then((res) => {
-      return this._serverResponse(res);
+      return this._getServerResponse(res);
     });
   }
 
@@ -65,7 +65,7 @@ class Api {
       },
       body: JSON.stringify(avatar),
     }).then((res) => {
-      return this._serverResponse(res);
+      return this._getServerResponse(res);
     });
   }
 
@@ -79,7 +79,7 @@ class Api {
       },
       body: JSON.stringify(data),
     }).then((res) => {
-      return this._serverResponse(res);
+      return this._getServerResponse(res);
     });
   }
 
@@ -92,34 +92,22 @@ class Api {
         "Content-type": "application/json",
       },
     }).then((res) => {
-      return this._serverResponse(res);
+      return this._getServerResponse(res);
     });
   }
 
   // Изменение лайка на карточках
 
   changeLikeCardStatus(id, isLiked) {
-    if (isLiked) {
-      return fetch(`${this._baseUrl}cards/likes/${id}`, {
-        method: "PUT",
-        headers: {
-          authorization: this._token,
-          "Content-type": "application/json",
-        },
-      }).then((res) => {
-        return this._serverResponse(res);
-      });
-    } else {
-      return fetch(`${this._baseUrl}cards/likes/${id}`, {
-        method: "DELETE",
-        headers: {
-          authorization: this._token,
-          "Content-type": "application/json",
-        },
-      }).then((res) => {
-        return this._serverResponse(res);
-      });
-    }
+    return fetch(`${this._baseUrl}cards/likes/${id}`, {
+      method: `${isLiked ? "PUT" : "DELETE"}`,
+      headers: {
+        authorization: this._token,
+        "Content-type": "application/json",
+      },
+    }).then((res) => {
+      return this._getServerResponse(res);
+    });
   }
 }
 
