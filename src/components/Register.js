@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, withRouter } from 'react-router-dom'; 
-import * as auth from '../utils/auth';
 import useForm from "../Hooks/useForm";
 
 
@@ -8,12 +7,10 @@ function Register(props){
 
   const {handleChange , values , errors, isValid } = useForm()
 
-
   function handleSubmit(event) {
     event.preventDefault()
     props.handleSubmitRegister(values.email, values.password);
   }
- 
 
   return(
     <section className="register">

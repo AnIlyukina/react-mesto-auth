@@ -29,7 +29,7 @@ function App() {
   const[isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false)
   const[messageInfoTooltip, setMessageInfoTooltip] = React.useState(false)
 
-  const [email, setEmail] = React.useState('');
+  const [userEmail, setUserEmail] = React.useState('');
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -64,9 +64,6 @@ function App() {
       });
   }, []);
 
-  function handleLogin(){
-    setLoggedIn(true)
-  }
 
   function handleSubmitRegister(email, password) {
     auth.register(email, password)
@@ -74,7 +71,7 @@ function App() {
         setIsInfoTooltipOpen(true);
         if(res) {
           setMessageInfoTooltip(true);
-          history.push('/sign-in');
+          handleSubmitLogin(password, email)
         }
       })
       .catch(() => {
@@ -83,13 +80,24 @@ function App() {
       });
   }
 
+  function handleSubmitLogin (password, login){
+    auth.authorize(password, login)
+    .then((res) => {
+      setLoggedIn(true)
+      history.push('/')
+      localStorage.setItem('jwt', res.token);
+      setUserEmail(login)
+    })
+    .catch(error => console.log(error))
+  }
+
   function checkToken() {
     const jwt = localStorage.getItem('jwt');
     if(jwt) {
       auth.getToken(jwt)
       .then((res) => {
         if(res) {
-          setEmail(res.data.email)
+          setUserEmail(res.data.email)
         };
         setLoggedIn(true);
         history.push('/');
@@ -110,8 +118,6 @@ function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
   }
-
- 
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -139,8 +145,6 @@ function App() {
     setSelectedCard({ name: "", link: "" });
     setCardToDelete({ name: "", link: "" });
   }
-
-
 
   function handleUpdateUser(user) {
     setIsLoading(true)
@@ -201,7 +205,6 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
-
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
@@ -219,7 +222,7 @@ function App() {
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
           <Header 
-            email = {email}  
+            userEmail = {userEmail}  
             loggedIn ={loggedIn}
             signOut = {signOut}
             
@@ -241,14 +244,10 @@ function App() {
               <Register handleSubmitRegister ={handleSubmitRegister}/>
             </Route>
             <Route path='/sign-in'>
-             <Login handleLogin={handleLogin} setEmail={setEmail}/>
+             <Login handleSubmitLogin={handleSubmitLogin} />
             </Route>
-      
-
-            
           </Switch>
           <Footer />
-
           <InfoTooltip isOpen ={isInfoTooltipOpen} messageInfoTooltip = {messageInfoTooltip} onClose={closeAllPopups}/>
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
@@ -256,21 +255,18 @@ function App() {
             onUpdateUser={handleUpdateUser}
             isLoading = {isLoading}
           />
-
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
             isLoading = {isLoading}
           />
-
           <AddPlacePopup
             isOpen={isAddProfilePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
             isLoading = {isLoading}
           />
-
           <ConfirmDeletePopup
             isOpen={isConfirmDeletePopupOpen}
             onClose={closeAllPopups}

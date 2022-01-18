@@ -1,28 +1,17 @@
 import React from "react";
-import { withRouter, useHistory } from 'react-router-dom';
-import * as auth from '../utils/auth';
+import { withRouter } from 'react-router-dom';
 import useForm from "../Hooks/useForm";
   
 
 
 function Login(props){
-  const history = useHistory();
 
   const {handleChange, values, errors, isValid} =useForm()
 
 
   function handleSubmit(event){
     event.preventDefault()
-    console.log(values.password, values.login)
-    auth.authorize( values.password, values.login)
-    .then((res) => {
-      console.log(res)
-        props.handleLogin()
-        history.push('/')
-        localStorage.setItem('jwt', res.token);
-        props.setEmail(values.login)
-    })
-    .catch (error => console.log(error))
+    props.handleSubmitLogin(values.password, values.login)
   }
 
   return(

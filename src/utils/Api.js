@@ -97,7 +97,6 @@ class Api {
   }
 
   // Изменение лайка на карточках
-
   changeLikeCardStatus(id, isLiked) {
     return fetch(`${this._baseUrl}cards/likes/${id}`, {
       method: `${isLiked ? "PUT" : "DELETE"}`,
